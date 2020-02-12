@@ -5,7 +5,26 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+var usersRouter = require('./routes/user.route');
+// created for product route
+//var productRouter = require('./routes/product.route');
+//var url="mongodb://localhost:27017/onlineshopping";
+var url="mongodb+srv://Dheeraj:dheeraj@123@onlineshopping-42fgv.mongodb.net/test?retryWrites=true&w=majority";
+const mongoose = require("mongoose");
+mongoose.Promise = global.Promise;
+// Connecting to the database
+mongoose
+  .connect(url, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  })
+  .then(() => {
+    console.log("Successfully connected to the database");
+  })
+  .catch(err => {
+    console.log("Could not connect to the database. Exiting now...", err);
+    process.exit();
+  });
 
 var app = express();
 
@@ -21,6 +40,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+// created for product router js
+//app.use('/products' , productRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
